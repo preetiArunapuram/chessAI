@@ -209,8 +209,6 @@ public class ChessGame {
 		//System.out.println("Number of pieces before loop: " + activePlayer.getActivePieces().size());
 		Player opposingPlayer = (activePlayer == this.w_player) ? this.b_player : this.w_player;
 		King kingPiece = activePlayer.getKing();
-		int kingRank = kingPiece.getRank();
-		int kingFile = kingPiece.getFile();
 		
 		ArrayList<Pair<ChessPiece, Integer>> allowedMoves = new ArrayList<Pair<ChessPiece, Integer>>();
 
@@ -238,6 +236,8 @@ public class ChessGame {
 
 				
 				boolean kingIsAttacked = false;
+				int kingRank = kingPiece.getRank();
+				int kingFile = kingPiece.getFile();
 				
 				for(ChessPiece opposingPiece : opposingPlayer.getActivePieces()) {
 					if(opposingPiece.isValidMove(kingRank, kingFile)) {
