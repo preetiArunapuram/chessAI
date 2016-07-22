@@ -33,17 +33,28 @@ public abstract class Knight extends Piece {
 	
 	// This function will get the possible future moves for the Rook
 	public void setFutureStates() {
+		this.stateSpace.clear();
 		int rank = this.getRank();
 		int file = this.getFile();
 		
+		//System.out.println("Original loc: " + ChessBoard.getIndexLocation(rank, file));
+		
 		boolean addState = futureStatesHelper(rank + 1, file + 2);
+		//System.out.println(addState);
 		addState = futureStatesHelper(rank + 2, file + 1);
+		//System.out.println(addState);
 		addState = futureStatesHelper(rank - 1, file + 2);
+		//System.out.println(addState);
 		addState = futureStatesHelper(rank - 2, file + 1);
+		//System.out.println(addState);
 		addState = futureStatesHelper(rank + 1, file - 2);
+		//System.out.println(addState);
 		addState = futureStatesHelper(rank + 2, file - 1);
+		//System.out.println(addState);
 		addState = futureStatesHelper(rank - 1, file - 2);
+		//System.out.println(addState);
 		addState = futureStatesHelper(rank - 2, file - 1);
+		//System.out.println(addState);
 	}
 
 	public Set<Integer> getAttackingStates() {

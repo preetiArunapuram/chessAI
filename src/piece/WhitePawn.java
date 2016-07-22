@@ -52,7 +52,6 @@ public class WhitePawn extends Pawn {
 	public void setFutureStates() {
 		// TODO Auto-generated method stub
 		this.stateSpace.clear();
-		
 		int rank = this.getRank();
 		int file = this.getFile();
 	

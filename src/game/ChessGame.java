@@ -213,7 +213,7 @@ public class ChessGame {
 		int kingFile = kingPiece.getFile();
 		
 		ArrayList<Pair<ChessPiece, Integer>> allowedMoves = new ArrayList<Pair<ChessPiece, Integer>>();
-		//if(activePlayer.inCheck()) {
+
 		Set<ChessPiece> allActivePieces = activePlayer.getActivePieces();
 		for(ChessPiece piece : allActivePieces) {
 			piece.setFutureStates();
@@ -223,24 +223,18 @@ public class ChessGame {
 			
 			int originalRank = piece.getRank();
 			int originalFile = piece.getFile();
-			//System.out.println("Number of pieces before loop: " + activePlayer.getActivePieces().size());
+
 			for(Integer loc : futureLocations) {
-				//System.out.println("Number of pieces beginning of loop: " + opposingPlayer.getActivePieces().size());
-				/*for(ChessPiece ch : opposingPlayer.getActivePieces()) {
-					System.out.println(ch);
-				}*/
-				
+				//System.out.println("Exploring location: " + loc);
 				Pair<Integer, Integer> rankAndFile = ChessBoard.getRankAndFileLocation(loc);
 				int rank = rankAndFile.getLeft();
 				int file = rankAndFile.getRight();
 				
 				ChessPiece displacedPiece = piece.officialMove(rank, file);
 				if(displacedPiece != null) {
-					//System.out.println("Temporarily captured " + displacedPiece.toString());
-					System.out.println("Displaced piece: " + displacedPiece.toString());
+					//System.out.println("Displaced piece: " + displacedPiece.toString());
 					opposingPlayer.removePiece(displacedPiece);
 				}
-				//System.out.println("Number of pieces after displacement: " + opposingPlayer.getActivePieces().size());
 
 				
 				boolean kingIsAttacked = false;
@@ -317,7 +311,7 @@ public class ChessGame {
 				return;
 			}
 			
-			//this.printCurrentBoard();
+			this.printCurrentBoard();
 			//System.out.println("Number of white pieces after play: " + w_player.getActivePieces().size());
 			System.out.println("--------------------------------------------------------------------");
 			
@@ -329,7 +323,7 @@ public class ChessGame {
 				return;
 			}
 			
-			//this.printCurrentBoard();
+			this.printCurrentBoard();
 			//System.out.println("Number of black pieces after play: " + b_player.getActivePieces().size());
 			System.out.println("--------------------------------------------------------------------");
 		}

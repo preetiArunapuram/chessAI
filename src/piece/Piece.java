@@ -138,23 +138,25 @@ public abstract class Piece implements ChessPiece {
 		}
 		
 		Integer indexLocation = ChessBoard.getIndexLocation(rank, file);
+		//System.out.println("This is the piece that is moving: " + this.toString() + ", Current location: " + ChessBoard.getIndexLocation(rank, file) );
+
 		if (indexLocation == null) {return false;}
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
-		System.out.println(piece);
+		//System.out.println(piece);
 		if (piece != null) {
-			//System.out.println(piece.getColor());
+			//System.out.println("Piece encountered: " + piece.toString() + " on location " + indexLocation);
 			if (piece.getColor() != this.getColor()) {
-				System.out.println("Opposing color");
+				//System.out.println("Piece could be captured: " + piece.toString());
 				this.stateSpace.add(indexLocation);
-				//System.out.println("Rank: " + rank + ", File: " + file);
+				//System.out.println("Possible location capture: " + indexLocation);
 			}
 			
 			return false;
 		}
 		
 		else {
+			//System.out.println("Piece has been added anyway: " + indexLocation);
 			this.stateSpace.add(indexLocation);
-			//System.out.println("Rank: " + rank + ", File: " + file);
 		}
 		
 		return true;
