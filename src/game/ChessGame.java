@@ -206,7 +206,6 @@ public class ChessGame {
 	}
 	
 	private ArrayList<Pair<ChessPiece, Integer>> getAllowedMoves(Player activePlayer) {
-		//System.out.println("Number of pieces before loop: " + activePlayer.getActivePieces().size());
 		Player opposingPlayer = (activePlayer == this.w_player) ? this.b_player : this.w_player;
 		King kingPiece = activePlayer.getKing();
 		
@@ -216,21 +215,18 @@ public class ChessGame {
 		for(ChessPiece piece : allActivePieces) {
 			piece.setFutureStates();
 			Set<Integer> futureLocations = piece.getFutureStates();
-			//System.out.println(futureLocations);
 			if(futureLocations.isEmpty()) continue;
 			
 			int originalRank = piece.getRank();
 			int originalFile = piece.getFile();
 
 			for(Integer loc : futureLocations) {
-				//System.out.println("Exploring location: " + loc);
 				Pair<Integer, Integer> rankAndFile = ChessBoard.getRankAndFileLocation(loc);
 				int rank = rankAndFile.getLeft();
 				int file = rankAndFile.getRight();
 				
 				ChessPiece displacedPiece = piece.officialMove(rank, file);
 				if(displacedPiece != null) {
-					//System.out.println("Displaced piece: " + displacedPiece.toString());
 					opposingPlayer.removePiece(displacedPiece);
 				}
 
@@ -254,25 +250,16 @@ public class ChessGame {
 				
 				piece.officialMove(originalRank, originalFile);
 				if(displacedPiece != null) {
-					//System.out.println("Added back " + displacedPiece.toString());
 					this.board.addPieceToRankAndFile(rank, file, displacedPiece);
 					opposingPlayer.addPiece(displacedPiece);
-					//System.out.println("Replaced piece: " + displacedPiece.toString());
 				}
-				
-				//System.out.println("Number of pieces after replacement: " + opposingPlayer.getActivePieces().size());
-				//System.out.println("Number of pieces: " + activePlayer.getActivePieces().size());
 			}
-			
-			//piece.officialMove(originalRank, originalFile);
-			//}
 		}
 		
 		return allowedMoves;
 	}
 	
 	public boolean playOneRound(Player activePlayer) {
-		//System.out.println("Number of pieces beginning of play: " + activePlayer.getActivePieces().size());
 		ArrayList<Pair<ChessPiece, Integer>> movesArray = this.getAllowedMoves(activePlayer);
 		int moveCount = movesArray.size();
 		
@@ -281,7 +268,6 @@ public class ChessGame {
 			return false;
 		}
 		
-		//Pair<ChessPiece, Integer>[] movesArray = (Pair<ChessPiece, Integer>[]) moves.toArray();
 		Random rng = new Random();
 
 		int ind = rng.nextInt(movesArray.size());
@@ -289,42 +275,33 @@ public class ChessGame {
 		ChessPiece piece = whiteNextMove.getLeft();
 		Pair<Integer, Integer> rankAndFile = ChessBoard.getRankAndFileLocation(whiteNextMove.getRight());
 		
-		//System.out.println("Number of pieces after capture: " + activePlayer.getActivePieces().size());
 		ChessPiece capturedPiece = piece.officialMove(rankAndFile.getLeft(), rankAndFile.getRight());
 		if(capturedPiece != null) {
-			//System.out.println("Captured " + capturedPiece.toString());
 			Player opposingPlayer = (activePlayer == this.w_player) ? this.b_player : this.w_player;
 			opposingPlayer.removePiece(capturedPiece);
 		}
 		
-		//System.out.println("Number of pieces after capture: " + activePlayer.getActivePieces().size());
 		return true;
 	}
 	
 	public void playSomeRounds(int n) {
 		for(int i = 0; i < n; i++) {
 			System.out.println("White playing: ");
-			//System.out.println("Number of white pieces before play: " + w_player.getActivePieces().size());
-			//System.out.println("Number of pieces: " + this.w_player.getActivePieces().size());
 			boolean whiteStillPlayed = this.playOneRound(this.w_player);
 			if(!whiteStillPlayed) {
 				return;
 			}
 			
 			this.printCurrentBoard();
-			//System.out.println("Number of white pieces after play: " + w_player.getActivePieces().size());
 			System.out.println("--------------------------------------------------------------------");
 			
 			System.out.println("Black playing: ");
-			//System.out.println("Number of black pieces before play: " + b_player.getActivePieces().size());
-			//System.out.println("Number of pieces: " + this.b_player.getActivePieces().size());
 			boolean blackStillPlayed = this.playOneRound(this.b_player);
 			if(!blackStillPlayed) {
 				return;
 			}
 			
 			this.printCurrentBoard();
-			//System.out.println("Number of black pieces after play: " + b_player.getActivePieces().size());
 			System.out.println("--------------------------------------------------------------------");
 		}
 	}

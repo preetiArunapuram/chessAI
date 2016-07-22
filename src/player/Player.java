@@ -52,7 +52,6 @@ public class Player {
 	
 	public void removePiece(ChessPiece capturedPiece) {
 		boolean removed = this.activePieces.remove(capturedPiece);
-		//System.out.println("Removed? " + removed);
 	}
 	
 	public void addPiece(ChessPiece piece) {
