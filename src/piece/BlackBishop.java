@@ -2,7 +2,8 @@ package piece;
 
 public class BlackBishop extends Bishop {
 
-	public BlackBishop() {
+	public BlackBishop(int rank, int file) {
+		super(rank, file);
 		this.setColor(true);
 	}
 	

@@ -23,6 +23,11 @@ public abstract class Piece implements ChessPiece {
 	protected Set<Integer> attackingSquares = new HashSet<Integer>();
 	private boolean hasMoved = false;
 	
+	public Piece(int rank, int file) {
+		this.rank = rank;
+		this.file = file;
+	}
+	
 	public int getRank() {
 		return rank;
 	}

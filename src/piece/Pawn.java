@@ -7,7 +7,8 @@ import board.ChessBoard;
 
 public abstract class Pawn extends Piece {
 
-	public Pawn() {
+	public Pawn(int rank, int file) {
+		super(rank, file);
 		this.setVal(1);
 	}
 	
@@ -23,22 +24,16 @@ public abstract class Pawn extends Piece {
 		boolean addState = false;
 		
 		Integer indexLocation = ChessBoard.getIndexLocation(rank + 1, file);
-		if (indexLocation != null) {
-			ChessPiece piece = this.getBoard().pieceAt(indexLocation);
-			if (piece == null) {
-				this.stateSpace.add(indexLocation);
-				addState = true;
-			}
-		}
-		
-		else {
-			return;
+		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
+		if (piece == null) {
+			this.stateSpace.add(indexLocation);
+			addState = true;
 		}
 		
 		// Initial jump
 		if (rank == 1) {
 			indexLocation = ChessBoard.getIndexLocation(rank + 2, file);
-			ChessPiece piece = this.getBoard().pieceAt(indexLocation);
+			piece = this.getBoard().pieceAt(indexLocation);
 			if (addState && piece == null) {
 				this.stateSpace.add(indexLocation);
 			}
@@ -47,7 +42,7 @@ public abstract class Pawn extends Piece {
 		// Diagonal attacks
 		indexLocation = ChessBoard.getIndexLocation(rank + 1, file + 1);
 		if (indexLocation != null) {
-			ChessPiece piece = this.getBoard().pieceAt(indexLocation);
+			piece = this.getBoard().pieceAt(indexLocation);
 			if (piece != null && piece.getColor() != this.getColor()) {
 				this.stateSpace.add(indexLocation);
 			}
@@ -55,7 +50,7 @@ public abstract class Pawn extends Piece {
 		
 		indexLocation = ChessBoard.getIndexLocation(rank + 1, file - 1);
 		if (indexLocation != null) {
-			ChessPiece piece = this.getBoard().pieceAt(indexLocation);
+			piece = this.getBoard().pieceAt(indexLocation);
 			if (piece != null && piece.getColor() != this.getColor()) {
 				this.stateSpace.add(indexLocation);
 			}

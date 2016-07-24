@@ -8,7 +8,8 @@ import board.ChessBoard;
 
 public abstract class Bishop extends Piece {
 
-	public Bishop() {
+	public Bishop(int rank, int file) {
+		super(rank, file);
 		this.setVal(3);
 	}
 

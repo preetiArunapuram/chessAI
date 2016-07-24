@@ -47,55 +47,32 @@ public class ChessGame {
 		// White pieces
 		ChessPiece[] whitePawns = new ChessPiece[8];
 		for(int i = 0; i < whitePawns.length; i++) {
-			whitePawns[i] = new WhitePawn();
-			whitePawns[i].setRank(1);
-			whitePawns[i].setFile(i);
+			whitePawns[i] = new WhitePawn(1, i);
 			this.board.addPieceToRankAndFile(1, i, whitePawns[i]);
 		}
 		
-		ChessPiece whiteRook1 = new WhiteRook();
-		whiteRook1.setRank(0);
-		whiteRook1.setFile(0);
-		
-		ChessPiece whiteRook2 = new WhiteRook();
-		whiteRook2.setRank(0);
-		whiteRook2.setFile(7);
+		ChessPiece whiteRook1 = new WhiteRook(0, 0);	
+		ChessPiece whiteRook2 = new WhiteRook(0, 7);
 		
 		this.board.addPieceToRankAndFile(0, 0, whiteRook1);
 		this.board.addPieceToRankAndFile(0, 7, whiteRook2);
 		
-		ChessPiece whiteKnight1 = new WhiteKnight();
-		whiteKnight1.setRank(0);
-		whiteKnight1.setFile(1);
-		
-		ChessPiece whiteKnight2 = new WhiteKnight();
-		whiteKnight2.setRank(0);
-		whiteKnight2.setFile(6);
+		ChessPiece whiteKnight1 = new WhiteKnight(0, 1);
+		ChessPiece whiteKnight2 = new WhiteKnight(0, 6);
 		
 		this.board.addPieceToRankAndFile(0, 1, whiteKnight1);
 		this.board.addPieceToRankAndFile(0, 6, whiteKnight2);
 		
-		ChessPiece whiteBishop1 = new WhiteBishop();
-		whiteBishop1.setRank(0);
-		whiteBishop1.setFile(2);
-		
-		ChessPiece whiteBishop2 = new WhiteBishop();
-		whiteBishop2.setRank(0);
-		whiteBishop2.setFile(5);
+		ChessPiece whiteBishop1 = new WhiteBishop(0, 2);
+		ChessPiece whiteBishop2 = new WhiteBishop(0, 5);
 		
 		this.board.addPieceToRankAndFile(0, 2, whiteBishop1);
 		this.board.addPieceToRankAndFile(0, 5, whiteBishop2);
 		
-		ChessPiece whiteKing = new WhiteKing();
-		whiteKing.setRank(0);
-		whiteKing.setFile(4);
-		
+		ChessPiece whiteKing = new WhiteKing(0, 4);
 		this.board.addPieceToRankAndFile(0, 4, whiteKing);
 		
-		ChessPiece whiteQueen = new WhiteQueen();
-		whiteQueen.setRank(0);
-		whiteQueen.setFile(3);
-		
+		ChessPiece whiteQueen = new WhiteQueen(0, 3);
 		this.board.addPieceToRankAndFile(0, 3, whiteQueen);
 		
 		Set<ChessPiece> allWhitePieces = new HashSet<ChessPiece>();
@@ -118,55 +95,32 @@ public class ChessGame {
 		// Black pieces
 		ChessPiece[] blackPawns = new ChessPiece[8];
 		for(int i = 0; i < blackPawns.length; i++) {
-			blackPawns[i] = new BlackPawn();
-			blackPawns[i].setRank(6);
-			blackPawns[i].setFile(i);
+			blackPawns[i] = new BlackPawn(6, i);
 			this.board.addPieceToRankAndFile(6, i, blackPawns[i]);
 		}
 		
-		ChessPiece blackRook1 = new BlackRook();
-		blackRook1.setRank(7);
-		blackRook1.setFile(0);
-		
-		ChessPiece blackRook2 = new BlackRook();
-		blackRook2.setRank(7);
-		blackRook2.setFile(7);
+		ChessPiece blackRook1 = new BlackRook(7, 0);
+		ChessPiece blackRook2 = new BlackRook(7, 7);
 		
 		this.board.addPieceToRankAndFile(7, 0, blackRook1);
 		this.board.addPieceToRankAndFile(7, 7, blackRook2);
 		
-		ChessPiece blackKnight1 = new BlackKnight();
-		blackKnight1.setRank(7);
-		blackKnight1.setFile(1);
-		
-		ChessPiece blackKnight2 = new BlackKnight();
-		blackKnight2.setRank(7);
-		blackKnight2.setFile(6);
+		ChessPiece blackKnight1 = new BlackKnight(7, 1);
+		ChessPiece blackKnight2 = new BlackKnight(7, 6);
 		
 		this.board.addPieceToRankAndFile(7, 1, blackKnight1);
 		this.board.addPieceToRankAndFile(7, 6, blackKnight2);
 		
-		ChessPiece blackBishop1 = new BlackBishop();
-		blackBishop1.setRank(7);
-		blackBishop1.setFile(2);
-		
-		ChessPiece blackBishop2 = new BlackBishop();
-		blackBishop2.setRank(7);
-		blackBishop2.setFile(5);
+		ChessPiece blackBishop1 = new BlackBishop(7, 2);
+		ChessPiece blackBishop2 = new BlackBishop(7, 5);
 		
 		this.board.addPieceToRankAndFile(7, 2, blackBishop1);
 		this.board.addPieceToRankAndFile(7, 5, blackBishop2);
 		
-		ChessPiece blackKing = new BlackKing();
-		blackKing.setRank(7);
-		blackKing.setFile(4);
-		
+		ChessPiece blackKing = new BlackKing(7, 4);
 		this.board.addPieceToRankAndFile(7, 4, blackKing);
 		
-		ChessPiece blackQueen = new BlackQueen();
-		blackQueen.setRank(7);
-		blackQueen.setFile(3);
-		
+		ChessPiece blackQueen = new BlackQueen(7, 3);
 		this.board.addPieceToRankAndFile(7, 3, blackQueen);
 
 		Set<ChessPiece> allBlackPieces = new HashSet<ChessPiece>();

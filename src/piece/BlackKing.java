@@ -6,7 +6,8 @@ import board.ChessBoard;
 
 public class BlackKing extends King {
 
-	public BlackKing() {
+	public BlackKing(int rank, int file) {
+		super(rank, file);
 		this.setColor(true);
 	}
 	

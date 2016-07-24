@@ -10,7 +10,8 @@ import board.ChessBoard;
 
 public abstract class Knight extends Piece {
 
-	public Knight() {
+	public Knight(int rank, int file) {
+		super(rank, file);
 		this.setVal(3);
 	}
 

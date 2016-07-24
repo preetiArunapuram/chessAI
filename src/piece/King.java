@@ -10,7 +10,8 @@ public abstract class King extends Piece {
 	boolean canQueenSideCastle = false;
 	boolean check = false;
 	
-	public King() {
+	public King(int rank, int file) {
+		super(rank, file);
 		this.setVal(12);
 	}
 

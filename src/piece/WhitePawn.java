@@ -7,8 +7,8 @@ import board.ChessBoard;
 
 public class WhitePawn extends Pawn {
 
-	public WhitePawn() {
-		super();
+	public WhitePawn(int rank, int file) {
+		super(rank, file);
 		this.setColor(false);
 	}
 

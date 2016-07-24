@@ -2,7 +2,8 @@ package piece;
 
 public class WhiteRook extends Rook {
 
-	public WhiteRook() {
+	public WhiteRook(int rank, int file) {
+		super(rank, file);
 		this.setColor(false);
 	}
 	

@@ -2,7 +2,8 @@ package piece;
 
 public class BlackKnight extends Knight {
 	
-	public BlackKnight() {
+	public BlackKnight(int rank, int file) {
+		super(rank, file);
 		this.setColor(true);
 	}
 
