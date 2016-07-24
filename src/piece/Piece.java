@@ -78,12 +78,7 @@ public abstract class Piece implements ChessPiece {
 	public abstract boolean isValidMove(int newRank, int newFile);
 	
 	// To find eligible moves and ensure that King is not in check.
-	public void unofficialMove(int rank, int file) {
-		setRank(rank);
-		setFile(file);
-	}
-	
-	public ChessPiece officialMove(int rank, int file) {
+	public ChessPiece unofficialMove(int rank, int file) {
 		int newIndexLocation = ChessBoard.getIndexLocation(rank, file);
 		ChessPiece piece = this.getBoard().pieceAt(newIndexLocation);
 
@@ -92,9 +87,13 @@ public abstract class Piece implements ChessPiece {
 		setRank(rank);
 		setFile(file);
 		
-		this.hasMoved = true;
-		
 		return piece;
+	}
+	
+	public ChessPiece officialMove(int rank, int file) {
+		ChessPiece capturedPiece = this.unofficialMove(rank, file);
+		this.hasMoved = true;
+		return capturedPiece;
 	}
 	
 	public boolean capture(int newRank, int newFile) {
@@ -157,8 +156,11 @@ public abstract class Piece implements ChessPiece {
 	}
 	
 	protected boolean canMoveHelper(int rank, int file) {
+		if(rank < 0 || rank > 7 || file < 0 || file > 7) {
+			return false;
+		}
+		
 		Integer indexLocation = ChessBoard.getIndexLocation(rank, file);
-		if (indexLocation == null) {return false;}
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 		if (piece != null) {
 			return false;

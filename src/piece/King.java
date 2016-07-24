@@ -24,7 +24,7 @@ public abstract class King extends Piece {
 		int file = this.getFile();
 		
 		// Ensure that a piece of the same color is not on the new rank and file
-		int indexLocation = ChessBoard.getIndexLocation(rank, file);
+		int indexLocation = ChessBoard.getIndexLocation(newRank, newFile);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 		if(piece != null && piece.getColor() == this.getColor()) {
 			return false;
@@ -59,6 +59,11 @@ public abstract class King extends Piece {
 		addState = futureStatesHelper(rank + 1, file - 1);
 		addState = futureStatesHelper(rank, file - 1);
 		addState = futureStatesHelper(rank - 1, file - 1);
+		
+		//System.out.println("We have the state space now!");
+		
+		//System.out.println(this.stateSpace);
+		
 		
 		/*
 		// King-side castling

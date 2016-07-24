@@ -221,11 +221,12 @@ public class ChessGame {
 			int originalFile = piece.getFile();
 
 			for(Integer loc : futureLocations) {
+				//System.out.println(loc);
 				Pair<Integer, Integer> rankAndFile = ChessBoard.getRankAndFileLocation(loc);
 				int rank = rankAndFile.getLeft();
 				int file = rankAndFile.getRight();
 				
-				ChessPiece displacedPiece = piece.officialMove(rank, file);
+				ChessPiece displacedPiece = piece.unofficialMove(rank, file);
 				if(displacedPiece != null) {
 					opposingPlayer.removePiece(displacedPiece);
 				}
@@ -237,6 +238,7 @@ public class ChessGame {
 				
 				for(ChessPiece opposingPiece : opposingPlayer.getActivePieces()) {
 					if(opposingPiece.isValidMove(kingRank, kingFile)) {
+						System.out.println("King is attacked!!");
 						kingIsAttacked = true;
 						break;
 					}

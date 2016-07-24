@@ -12,7 +12,7 @@ public class BlackKing extends King {
 	
 	public void setFutureStates() {
 		super.setFutureStates();
-		int castleSquare;
+		/*int castleSquare;
 		if(this.canKingSideCastle()) {
 			System.out.println("Kingside castling");
 			castleSquare = ChessBoard.getIndexLocation(7, 6);
@@ -23,7 +23,7 @@ public class BlackKing extends King {
 			System.out.println("Queenside castling");
 			castleSquare = ChessBoard.getIndexLocation(7, 1);
 			this.stateSpace.add(castleSquare);
-		}
+		}*/
 	}
 	
 	@Override

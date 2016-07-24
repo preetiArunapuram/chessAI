@@ -12,7 +12,7 @@ public class WhiteKing extends King {
 	
 	public void setFutureStates() {
 		super.setFutureStates();
-		int castleSquare;
+		/*int castleSquare;
 		if(this.canKingSideCastle()) {
 			castleSquare = ChessBoard.getIndexLocation(0, 6);
 			this.stateSpace.add(castleSquare);
@@ -21,7 +21,7 @@ public class WhiteKing extends King {
 		if(this.canQueenSideCastle()) {
 			castleSquare = ChessBoard.getIndexLocation(0, 1);
 			this.stateSpace.add(castleSquare);
-		}
+		}*/
 	}
 	
 	@Override

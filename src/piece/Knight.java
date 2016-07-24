@@ -23,9 +23,16 @@ public abstract class Knight extends Piece {
 			return false;
 		}
 		
+		int indexLocation = ChessBoard.getIndexLocation(newRank, newFile);
+		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
+		
+		if(piece != null && piece.getColor() == this.getColor()) {
+			return false;
+		}
+		
 		if((Math.abs(newRank - this.getRank()) == 2 && Math.abs(newFile - this.getFile()) == 1) ||
 				(Math.abs(newRank - this.getRank()) == 1 && Math.abs(newFile - this.getFile()) == 2)) {
-			return canMoveHelper(newRank, newFile);
+			return true;
 		}
 		
 		return false;

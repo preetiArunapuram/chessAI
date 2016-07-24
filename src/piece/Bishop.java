@@ -23,7 +23,7 @@ public abstract class Bishop extends Piece {
 		int file = this.getFile();
 		
 		// Ensure that a piece of the same color is not on the new rank and file
-		int indexLocation = ChessBoard.getIndexLocation(rank, file);
+		int indexLocation = ChessBoard.getIndexLocation(newRank, newFile);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 		if(piece != null && piece.getColor() == this.getColor()) {
 			return false;

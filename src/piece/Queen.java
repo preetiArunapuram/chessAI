@@ -13,7 +13,7 @@ public abstract class Queen extends Piece {
 	}
 	
 	@Override
-	public boolean isValidMove(int newRank, int newFile) {
+	public boolean isValidMove(int newRank, int newFile) { 
 		if (newRank < 0 || newRank > 7) return false;
 		if (newFile < 0 || newFile > 7) return false;
 		
@@ -21,8 +21,9 @@ public abstract class Queen extends Piece {
 		int file = this.getFile();
 		
 		// Ensure that a piece of the same color is not on the new rank and file
-		int indexLocation = ChessBoard.getIndexLocation(rank, file);
+		int indexLocation = ChessBoard.getIndexLocation(newRank, newFile);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
+		
 		if(piece != null && piece.getColor() == this.getColor()) {
 			return false;
 		}
@@ -40,7 +41,7 @@ public abstract class Queen extends Piece {
 		if (newRank == rank) {
 			do {
 				nextRank = (newRank > rank) ? nextRank + 1 : nextRank - 1;
-				continueFindingStates = this.futureStatesHelper(nextRank, file);
+				continueFindingStates = this.canMoveHelper(nextRank, file);
 			} while(continueFindingStates && (nextRank != newRank));
 			
 			if(nextRank == newRank) {
@@ -50,26 +51,26 @@ public abstract class Queen extends Piece {
 			do {
 				nextFile = (newFile > file) ? nextFile + 1 : nextFile - 1;
 				continueFindingStates = this.canMoveHelper(rank, nextFile);
-			} while(continueFindingStates || (nextFile != newFile));
+			} while(continueFindingStates && (nextFile != newFile));
 			
 			if(nextFile == newFile) {
 				return true;
 			}
+		} else {
+			// Diagonal moves are also valid
+			float ratio = Math.abs(newRank - rank) / Math.abs(newFile - file);	
+			if (ratio == 1) {
+				do {
+					nextRank = (newRank > rank) ? nextRank + 1 : nextRank - 1;
+					nextFile = (newFile > file) ? nextFile + 1 : nextFile - 1;
+					continueFindingStates = this.canMoveHelper(nextRank, nextFile);
+				} while(continueFindingStates && (nextRank != newRank) && (nextFile != newFile));
+	
+				if(nextRank == newRank && nextFile == newFile) {
+					return true;
+				}
+			} 
 		}
-		
-		// Diagonal moves are also valid
-		float ratio = Math.abs(newRank - rank) / Math.abs(newFile - file);	
-		if (ratio == 1) {
-			do {
-				nextRank = (newRank > rank) ? nextRank + 1 : nextRank - 1;
-				nextFile = (newFile > file) ? nextFile + 1 : nextFile - 1;
-				continueFindingStates = this.canMoveHelper(nextRank, nextFile);
-			} while(continueFindingStates && (nextRank != newRank) && (nextFile != newFile));
-
-			if(nextRank == newRank && nextFile == newFile) {
-				return true;
-			}
-		} 
 		
 		return false;
 	}

@@ -27,5 +27,5 @@ public interface ChessPiece {
 	public ChessGame getGame();
 	public void setRank(int i);
 	public void setFile(int i);
-	public void unofficialMove(int rank, int file);
+	public ChessPiece unofficialMove(int rank, int file);
 }
