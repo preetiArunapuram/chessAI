@@ -48,7 +48,6 @@ public abstract class Queen extends Piece {
 				if(nextFile == newFile) {
 					return true;
 				}
-				//System.out.println("Next file: " + nextFile);
 				continueFindingStates = this.canMoveHelper(rank, nextFile);
 			} while(continueFindingStates);
 		} else if(newFile == file) {
@@ -57,9 +56,8 @@ public abstract class Queen extends Piece {
 				if(nextRank == newRank) {
 					return true;
 				}
-				//System.out.println("Next rank: " + nextRank);
-				continueFindingStates = this.canMoveHelper(newRank, file);
-			} while(continueFindingStates);		
+				continueFindingStates = this.canMoveHelper(nextRank, file);
+			} while(continueFindingStates);
 		} else {
 			// Diagonal moves are also valid
 			float ratio = Math.abs(newRank - rank) / Math.abs(newFile - file);	
