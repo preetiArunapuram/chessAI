@@ -22,7 +22,7 @@ public abstract class Rook extends Piece {
 		int file = this.getFile();
 		
 		// Ensure that a piece of the same color is not on the new rank and file
-		int indexLocation = ChessBoard.getIndexLocation(rank, file);
+		int indexLocation = ChessBoard.getIndexLocation(newRank, newFile);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 		if(piece != null && piece.getColor() == this.getColor()) {
 			return false;
@@ -40,22 +40,21 @@ public abstract class Rook extends Piece {
 		// A horizontal or vertical move is valid 
 		if (newRank == rank) {
 			do {
-				nextRank = (newRank > rank) ? nextRank + 1 : nextRank - 1;
-				continueFindingStates = this.canMoveHelper(nextRank, file);
-			} while(continueFindingStates && (nextRank != newRank));
-			
-			if(nextRank == newRank) {
-				return true;
-			}
+				nextFile = (newFile > file) ? nextFile + 1 : nextFile - 1;
+				if(nextFile == newFile) {
+					return true;
+				}
+				
+				continueFindingStates = this.canMoveHelper(rank, nextFile);
+			} while(continueFindingStates);
 		} else if(newFile == file) {
 			do {
-				nextFile = (newFile > file) ? nextFile + 1 : nextFile - 1;
-				continueFindingStates = this.canMoveHelper(rank, nextFile);
-			} while(continueFindingStates || (nextFile != newFile));
-			
-			if(nextFile == newFile) {
-				return true;
-			}
+				nextRank = (newRank > rank) ? nextRank + 1 : nextRank - 1;
+				if(nextRank == newRank) {
+					return true;
+				}
+				continueFindingStates = this.canMoveHelper(nextRank, file);
+			} while(continueFindingStates);
 		}
 		
 		return false;

@@ -167,6 +167,7 @@ public class ChessGame {
 
 		Set<ChessPiece> allActivePieces = activePlayer.getActivePieces();
 		for(ChessPiece piece : allActivePieces) {
+			//System.out.println(piece);
 			piece.setFutureStates();
 			Set<Integer> futureLocations = piece.getFutureStates();
 			if(futureLocations.isEmpty()) continue;
@@ -192,7 +193,7 @@ public class ChessGame {
 				
 				for(ChessPiece opposingPiece : opposingPlayer.getActivePieces()) {
 					if(opposingPiece.isValidMove(kingRank, kingFile)) {
-						System.out.println("King is attacked!!");
+						System.out.println("King on " + kingRank + ", " + kingFile + " is attacked by " + opposingPiece.toString() + " on " + opposingPiece.getRank() + ", " + opposingPiece.getFile());
 						kingIsAttacked = true;
 						break;
 					}

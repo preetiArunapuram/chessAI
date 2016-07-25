@@ -36,7 +36,7 @@ public abstract class King extends Piece {
 			return false;
 		}
 		
-		if (Math.abs(newRank - rank) == 1 && Math.abs(newRank - rank) == 1) {
+		if (Math.abs(newRank - rank) <= 1 && Math.abs(newFile - file) <= 1) {
 			return true;
 		}
 		

@@ -45,12 +45,12 @@ public abstract class Bishop extends Piece {
 			do {
 				nextRank = (newRank > rank) ? nextRank + 1 : nextRank - 1;
 				nextFile = (newFile > file) ? nextFile + 1 : nextFile - 1;
+				if((nextRank == newRank) && (nextFile == newFile)) {
+					return true;
+				}
+				
 				continueFindingStates = this.canMoveHelper(nextRank, nextFile);
-			} while(continueFindingStates && (nextRank != newRank) && (nextFile != newFile));
-
-			if(nextRank == newRank && nextFile == newFile) {
-				return true;
-			}
+			} while(continueFindingStates);
 		} 
 		
 		return false;

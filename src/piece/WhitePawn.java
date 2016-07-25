@@ -21,7 +21,7 @@ public class WhitePawn extends Pawn {
 		int file = this.getFile();
 		
 		// Ensure that a piece of the same color is not on the new rank and file
-		int indexLocation = ChessBoard.getIndexLocation(rank, file);
+		int indexLocation = ChessBoard.getIndexLocation(newRank, newFile);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 		if(piece != null && piece.getColor() == this.getColor()) {
 			return false;
@@ -34,7 +34,7 @@ public class WhitePawn extends Pawn {
 			boolean continueFindingStates;
 			do {
 				nextRank++;
-				continueFindingStates = this.futureStatesHelper(nextRank, file);
+				continueFindingStates = this.canMoveHelper(nextRank, file);
 			} while(continueFindingStates && nextRank == newRank);
 			
 			if(nextRank == newRank) {

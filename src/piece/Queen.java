@@ -21,6 +21,9 @@ public abstract class Queen extends Piece {
 		int rank = this.getRank();
 		int file = this.getFile();
 		
+		//System.out.println("Queen rank and file: " + rank + ", " + file);
+		//System.out.println("King rank and file: " + newRank + ", " + newFile);
+		
 		// Ensure that a piece of the same color is not on the new rank and file
 		int indexLocation = ChessBoard.getIndexLocation(newRank, newFile);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
@@ -41,22 +44,22 @@ public abstract class Queen extends Piece {
 		// A horizontal or vertical move is valid 
 		if (newRank == rank) {
 			do {
-				nextRank = (newRank > rank) ? nextRank + 1 : nextRank - 1;
-				continueFindingStates = this.canMoveHelper(nextRank, file);
-			} while(continueFindingStates && (nextRank != newRank));
-			
-			if(nextRank == newRank) {
-				return true;
-			}
+				nextFile = (newFile > file) ? nextFile + 1 : nextFile - 1;
+				if(nextFile == newFile) {
+					return true;
+				}
+				//System.out.println("Next file: " + nextFile);
+				continueFindingStates = this.canMoveHelper(rank, nextFile);
+			} while(continueFindingStates);
 		} else if(newFile == file) {
 			do {
-				nextFile = (newFile > file) ? nextFile + 1 : nextFile - 1;
-				continueFindingStates = this.canMoveHelper(rank, nextFile);
-			} while(continueFindingStates && (nextFile != newFile));
-			
-			if(nextFile == newFile) {
-				return true;
-			}
+				nextRank = (newRank > rank) ? nextRank + 1 : nextRank - 1;
+				if(nextRank == newRank) {
+					return true;
+				}
+				//System.out.println("Next rank: " + nextRank);
+				continueFindingStates = this.canMoveHelper(newRank, file);
+			} while(continueFindingStates);		
 		} else {
 			// Diagonal moves are also valid
 			float ratio = Math.abs(newRank - rank) / Math.abs(newFile - file);	
@@ -64,12 +67,12 @@ public abstract class Queen extends Piece {
 				do {
 					nextRank = (newRank > rank) ? nextRank + 1 : nextRank - 1;
 					nextFile = (newFile > file) ? nextFile + 1 : nextFile - 1;
+					if((nextRank == newRank) && (nextFile == newFile)) {
+						return true;
+					}
+					
 					continueFindingStates = this.canMoveHelper(nextRank, nextFile);
-				} while(continueFindingStates && (nextRank != newRank) && (nextFile != newFile));
-	
-				if(nextRank == newRank && nextFile == newFile) {
-					return true;
-				}
+				} while(continueFindingStates);
 			} 
 		}
 		
