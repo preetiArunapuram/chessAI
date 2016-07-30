@@ -167,7 +167,6 @@ public class ChessGame {
 
 		Set<ChessPiece> allActivePieces = activePlayer.getActivePieces();
 		for(ChessPiece piece : allActivePieces) {
-			//System.out.println(piece);
 			piece.setFutureStates();
 			Set<Integer> futureLocations = piece.getFutureStates();
 			if(futureLocations.isEmpty()) continue;
@@ -176,7 +175,6 @@ public class ChessGame {
 			int originalFile = piece.getFile();
 
 			for(Integer loc : futureLocations) {
-				//System.out.println(loc);
 				Pair<Integer, Integer> rankAndFile = ChessBoard.getRankAndFileLocation(loc);
 				int rank = rankAndFile.getLeft();
 				int file = rankAndFile.getRight();
