@@ -21,9 +21,6 @@ public abstract class Queen extends Piece {
 		int rank = this.getRank();
 		int file = this.getFile();
 		
-		//System.out.println("Queen rank and file: " + rank + ", " + file);
-		//System.out.println("King rank and file: " + newRank + ", " + newFile);
-		
 		// Ensure that a piece of the same color is not on the new rank and file
 		int indexLocation = ChessBoard.getIndexLocation(newRank, newFile);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
@@ -48,7 +45,7 @@ public abstract class Queen extends Piece {
 				if(nextFile == newFile) {
 					return true;
 				}
-				//System.out.println("Next file: " + nextFile);
+			
 				continueFindingStates = this.canMoveHelper(rank, nextFile);
 			} while(continueFindingStates);
 		} else if(newFile == file) {
@@ -57,7 +54,7 @@ public abstract class Queen extends Piece {
 				if(nextRank == newRank) {
 					return true;
 				}
-				//System.out.println("Next rank: " + nextRank);
+
 				continueFindingStates = this.canMoveHelper(newRank, file);
 			} while(continueFindingStates);		
 		} else {
