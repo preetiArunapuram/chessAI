@@ -2,6 +2,8 @@ package piece;
 
 import java.util.Set;
 
+import mechanics.MoveObject;
+import mechanics.MoveType;
 import board.ChessBoard;
 
 public class WhiteKing extends King {
@@ -13,16 +15,22 @@ public class WhiteKing extends King {
 	
 	public void setFutureStates() {
 		super.setFutureStates();
-		/*int castleSquare;
+		int castleSquare;
 		if(this.canKingSideCastle()) {
 			castleSquare = ChessBoard.getIndexLocation(0, 6);
 			this.stateSpace.add(castleSquare);
+			
+			MoveObject move = new MoveObject(this, MoveType.KINGSIDE_CASTLE);
+			this.preCheckValidMoves.add(move);
 		}
 		
 		if(this.canQueenSideCastle()) {
 			castleSquare = ChessBoard.getIndexLocation(0, 1);
 			this.stateSpace.add(castleSquare);
-		}*/
+			
+			MoveObject move = new MoveObject(this, MoveType.QUEENSIDE_CASTLE);
+			this.preCheckValidMoves.add(move);
+		}
 	}
 	
 	@Override

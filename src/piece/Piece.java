@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import mechanics.MoveObject;
+import mechanics.MoveType;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import board.ChessBoard;
@@ -20,6 +23,8 @@ public abstract class Piece implements ChessPiece {
 	private ChessGame game;
 	
 	protected Set<Integer> stateSpace = new HashSet<Integer>();
+	protected Set<MoveObject> preCheckValidMoves = new HashSet<MoveObject>();
+	
 	protected Set<Integer> attackingSquares = new HashSet<Integer>();
 	private boolean hasMoved = false;
 	
@@ -148,6 +153,9 @@ public abstract class Piece implements ChessPiece {
 		if (piece != null) {
 			if (piece.getColor() != this.getColor()) {
 				this.stateSpace.add(indexLocation);
+				
+				MoveObject move = new MoveObject(piece, rank, file, MoveType.CAPTURE);
+				this.preCheckValidMoves.add(move);
 			}
 			
 			return false;
@@ -155,6 +163,9 @@ public abstract class Piece implements ChessPiece {
 		
 		else {
 			this.stateSpace.add(indexLocation);
+			
+			MoveObject move = new MoveObject(piece, rank, file, MoveType.NORMAL);
+			this.preCheckValidMoves.add(move);
 		}
 		
 		return true;
@@ -168,7 +179,6 @@ public abstract class Piece implements ChessPiece {
 		Integer indexLocation = ChessBoard.getIndexLocation(rank, file);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 		if (piece != null) {
-			//System.out.println("Obstructing piece: " + piece);
 			return false;
 		}
 		

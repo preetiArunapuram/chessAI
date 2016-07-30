@@ -82,6 +82,8 @@ public abstract class Queen extends Piece {
 	// This function will get the possible future moves for the Queen
 	public void setFutureStates() {
 		this.stateSpace.clear();
+		this.preCheckValidMoves.clear();
+		
 		int rank = this.getRank();
 		int file = this.getFile();
 		

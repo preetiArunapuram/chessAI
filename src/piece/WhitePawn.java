@@ -3,6 +3,8 @@ package piece;
 import java.util.HashSet;
 import java.util.Set;
 
+import mechanics.MoveObject;
+import mechanics.MoveType;
 import board.ChessBoard;
 
 public class WhitePawn extends Pawn {
@@ -65,6 +67,23 @@ public class WhitePawn extends Pawn {
 				ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 				if (piece == null) {
 					this.stateSpace.add(indexLocation);
+					
+					if (rank + 1 == 7) {
+						MoveObject bishop_promo = new MoveObject(this, rank + 1, file, MoveType.PAWN_PROMOTION_BISHOP);
+						MoveObject knight_promo = new MoveObject(this, rank + 1, file, MoveType.PAWN_PROMOTION_KNIGHT);
+						MoveObject rook_promo = new MoveObject(this, rank + 1, file, MoveType.PAWN_PROMOTION_ROOK);
+						MoveObject queen_promo = new MoveObject(this, rank + 1, file, MoveType.PAWN_PROMOTION_QUEEN);
+						
+						this.preCheckValidMoves.add(bishop_promo);
+						this.preCheckValidMoves.add(knight_promo);
+						this.preCheckValidMoves.add(rook_promo);
+						this.preCheckValidMoves.add(queen_promo);
+					} else {
+						MoveObject move = new MoveObject(this, rank + 1, file, MoveType.NORMAL);
+						this.preCheckValidMoves.add(move);
+						addState = true;
+					}
+					
 					addState = true;
 				}
 			}
@@ -76,6 +95,20 @@ public class WhitePawn extends Pawn {
 					ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 					if (piece != null && piece.getColor() != this.getColor()) {
 						this.stateSpace.add(indexLocation);
+						if (rank + 1 == 7) {
+							MoveObject bishop_promo = new MoveObject(this, rank + 1, file + 1, MoveType.PAWN_CAPTURE_PROMOTION_BISHOP);
+							MoveObject knight_promo = new MoveObject(this, rank + 1, file + 1, MoveType.PAWN_CAPTURE_PROMOTION_KNIGHT);
+							MoveObject rook_promo = new MoveObject(this, rank + 1, file + 1, MoveType.PAWN_CAPTURE_PROMOTION_ROOK);
+							MoveObject queen_promo = new MoveObject(this, rank + 1, file + 1, MoveType.PAWN_CAPTURE_PROMOTION_QUEEN);
+							
+							this.preCheckValidMoves.add(bishop_promo);
+							this.preCheckValidMoves.add(knight_promo);
+							this.preCheckValidMoves.add(rook_promo);
+							this.preCheckValidMoves.add(queen_promo);
+						} else {
+							MoveObject move = new MoveObject(this, rank + 1, file + 1, MoveType.CAPTURE);
+							this.preCheckValidMoves.add(move);
+						}
 					}
 				}
 			}
@@ -86,6 +119,20 @@ public class WhitePawn extends Pawn {
 					ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 					if (piece != null && piece.getColor() != this.getColor()) {
 						this.stateSpace.add(indexLocation);
+						if (rank + 1 == 7) {
+							MoveObject bishop_promo = new MoveObject(this, rank + 1, file - 1, MoveType.PAWN_CAPTURE_PROMOTION_BISHOP);
+							MoveObject knight_promo = new MoveObject(this, rank + 1, file - 1, MoveType.PAWN_CAPTURE_PROMOTION_KNIGHT);
+							MoveObject rook_promo = new MoveObject(this, rank + 1, file - 1, MoveType.PAWN_CAPTURE_PROMOTION_ROOK);
+							MoveObject queen_promo = new MoveObject(this, rank + 1, file - 1, MoveType.PAWN_CAPTURE_PROMOTION_QUEEN);
+							
+							this.preCheckValidMoves.add(bishop_promo);
+							this.preCheckValidMoves.add(knight_promo);
+							this.preCheckValidMoves.add(rook_promo);
+							this.preCheckValidMoves.add(queen_promo);
+						} else {
+							MoveObject move = new MoveObject(this, rank + 1, file - 1, MoveType.CAPTURE);
+							this.preCheckValidMoves.add(move);
+						}
 					}
 				}
 			}
