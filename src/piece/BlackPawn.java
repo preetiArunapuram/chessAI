@@ -174,27 +174,4 @@ public class BlackPawn extends Pawn {
 	public String toString() {
 		return "BP";
 	}
-	
-/*
-	@Override
-	public void setAttackingSquares() {
-		// TODO Auto-generated method stub
-		this.attackingSquares.clear();
-		
-		int rank = this.getRank();
-		int file = this.getFile();
-		
-		Integer indexLocation1 = ChessBoard.getIndexLocation(rank + 1, file + 1);
-		if (indexLocation1 != null) {
-			this.attackingSquares.add(indexLocation1);
-		}
-		
-		Integer indexLocation2 = ChessBoard.getIndexLocation(rank + 1, file - 1);
-		if (indexLocation2 != null) {
-			this.attackingSquares.add(indexLocation2);
-		}
-		
-		// TODO: Implement en passant check
-	}*/
-	
 }

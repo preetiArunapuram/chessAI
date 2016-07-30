@@ -194,13 +194,4 @@ public abstract class Queen extends Piece {
 	public Set<Integer> getAttackingStates() {
 		return this.stateSpace;
 	}
-	
-	/*
-	@Override
-	public void setAttackingSquares() {
-		// TODO Auto-generated method stub
-		this.attackingSquares.clear();
-		this.attackingSquares.addAll(this.stateSpace);
-	}*/
-	
 }

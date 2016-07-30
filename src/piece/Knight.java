@@ -60,18 +60,4 @@ public abstract class Knight extends Piece {
 	public Set<Integer> getAttackingStates() {
 		return this.stateSpace;
 	}
-	
-		/*
-		@Override
-		public void setAttackingSquares() {
-			// TODO Auto-generated method stub
-			this.attackingSquares.clear();
-			this.attackingSquares.addAll(this.stateSpace);
-		}
-
-		@Override
-		public boolean capture(int newRank, int newFile) {
-			// TODO Auto-generated method stub
-			return false;
-		}*/
 }

@@ -68,14 +68,6 @@ public abstract class King extends Piece {
 		return this.stateSpace;
 	}
 	
-	/*
-	@Override
-	public void setAttackingSquares() {
-		// TODO Auto-generated method stub
-		this.attackingSquares.clear();
-		this.attackingSquares.addAll(this.stateSpace);
-	}*/
-	
 	public abstract boolean canKingSideCastle();
 	public abstract boolean canQueenSideCastle();
 	
