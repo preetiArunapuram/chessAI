@@ -1,8 +1,12 @@
 package piece;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import board.ChessBoard;
+import utils.MoveCode;
 
 public abstract class King extends Piece {
 
@@ -82,7 +86,12 @@ public abstract class King extends Piece {
 	}
 	
 	public Set<Integer> getAttackingStates() {
-		return this.stateSpace;
+		Set<Integer> attackingSquares = new HashSet<Integer>();
+		for (Pair<Integer, MoveCode> move : this.stateSpace) {
+			attackingSquares.add(move.getLeft());
+		}
+		
+		return attackingSquares;
 	}
 	
 	/*
@@ -95,5 +104,69 @@ public abstract class King extends Piece {
 	
 	public abstract boolean canKingSideCastle();
 	public abstract boolean canQueenSideCastle();
+	
+	@Override
+	public ChessPiece unofficialMove(int rank, int file, MoveCode moveType) {
+		//return super.unofficialMove(rank, file, moveType);
+		int indexLocation = ChessBoard.getIndexLocation(rank, file);
+		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
+		
+		this.getBoard().movePieceToRankAndFile(this.getRank(), this.getFile(), rank, file);
+		setRank(rank);
+		setFile(file);
+		
+		if (moveType == MoveCode.NORMAL) {
+			return piece;
+		}
+		
+		if (moveType == MoveCode.KINGSIDE_CASTLE) {
+			int rookLocation = ChessBoard.getIndexLocation(this.getRank(), 7);
+			
+			ChessPiece rook1 = this.getBoard().pieceAt(rookLocation);
+			assert(rook1 instanceof Rook);
+			
+			this.getBoard().movePieceToRankAndFile(rook1.getRank(), rook1.getFile(), rank, 5);
+			rook1.setRank(rank);
+			rook1.setFile(5);
+		} else if (moveType == MoveCode.QUEENSIDE_CASTLE) {
+			int rookLocation = ChessBoard.getIndexLocation(this.getRank(), 0);
+			
+			ChessPiece rook2 = this.getBoard().pieceAt(rookLocation);
+			assert(rook2 instanceof Rook);
+			
+			this.getBoard().movePieceToRankAndFile(rook2.getRank(), rook2.getFile(), rank, 3);
+			rook2.setRank(rank);
+			rook2.setFile(1);
+		} 
+		
+		return null;
+	}
+	
+	@Override
+	public void undoMove(int prevRank, int prevFile, MoveCode moveType) {
+		if (moveType == MoveCode.NORMAL) {
+			super.undoMove(prevRank, prevFile, moveType);
+			return;
+		}
+		
+		this.getBoard().movePieceToRankAndFile(this.getRank(), this.getFile(), prevRank, prevFile);
+		setRank(prevRank);
+		setFile(prevFile);
+		if (moveType == MoveCode.KINGSIDE_CASTLE) {
+			int rookLocation = this.getBoard().getIndexLocation(this.getRank(), 5);
+			ChessPiece rook1 = this.getBoard().pieceAt(rookLocation);
+			assert(rook1 instanceof Rook);
+			
+			this.getBoard().movePieceToRankAndFile(rook1.getRank(), rook1.getFile(), prevRank, 7);
+			rook1.setRank(prevRank);
+			rook1.setFile(7);
+		} else if (moveType == MoveCode.QUEENSIDE_CASTLE) {
+			int rookLocation = this.getBoard().getIndexLocation(this.getRank(), 3);
+			ChessPiece rook2 = this.getBoard().pieceAt(rookLocation);
+			assert(rook2 instanceof Rook);
+			
+			this.getBoard().movePieceToRankAndFile(rook2.getRank(), rook2.getFile(), prevRank, 0);
+		}
+	}
 	
 }

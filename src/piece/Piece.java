@@ -1,12 +1,15 @@
 package piece;
 
 import game.ChessGame;
+import player.Player;
+import utils.MoveCode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import board.ChessBoard;
@@ -18,8 +21,9 @@ public abstract class Piece implements ChessPiece {
 	private boolean color;
 	private ChessBoard board;
 	private ChessGame game;
+	private Player player;
 	
-	protected Set<Integer> stateSpace = new HashSet<Integer>();
+	protected Set<Pair<Integer, MoveCode>> stateSpace = new HashSet<Pair<Integer, MoveCode>>();
 	protected Set<Integer> attackingSquares = new HashSet<Integer>();
 	private boolean hasMoved = false;
 	
@@ -40,6 +44,10 @@ public abstract class Piece implements ChessPiece {
 		return color;
 	}
 	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	public void setColor(boolean color) {
 		this.color = color;
 	}
@@ -58,6 +66,10 @@ public abstract class Piece implements ChessPiece {
 	
 	public void setBoard(ChessBoard board) {
 		this.board = board;
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 	
 	public void setRank(int rank) {
@@ -83,7 +95,7 @@ public abstract class Piece implements ChessPiece {
 	public abstract boolean isValidMove(int newRank, int newFile);
 	
 	// To find eligible moves and ensure that King is not in check.
-	public ChessPiece unofficialMove(int rank, int file) {
+	public ChessPiece unofficialMove(int rank, int file, MoveCode moveType) {
 		int newIndexLocation = ChessBoard.getIndexLocation(rank, file);
 		ChessPiece piece = this.getBoard().pieceAt(newIndexLocation);
 
@@ -95,8 +107,15 @@ public abstract class Piece implements ChessPiece {
 		return piece;
 	}
 	
-	public ChessPiece officialMove(int rank, int file) {
-		ChessPiece capturedPiece = this.unofficialMove(rank, file);
+	// Need to override in child classes to handle special moves
+	public void undoMove(int prevRank, int prevFile, MoveCode moveType) {
+		this.getBoard().movePieceToRankAndFile(this.getRank(), this.getFile(), prevRank, prevFile);
+		setRank(prevRank);
+		setFile(prevFile);
+	}
+	
+	public ChessPiece officialMove(int rank, int file, MoveCode moveType) {
+		ChessPiece capturedPiece = this.unofficialMove(rank, file, moveType);
 		this.hasMoved = true;
 		return capturedPiece;
 	}
@@ -127,7 +146,7 @@ public abstract class Piece implements ChessPiece {
 		return this.hasMoved;
 	}
 	
-	public Set<Integer> getFutureStates() {
+	public Set<Pair<Integer, MoveCode>> getFutureStates() {
 		return this.stateSpace;
 	}
 
@@ -147,14 +166,14 @@ public abstract class Piece implements ChessPiece {
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 		if (piece != null) {
 			if (piece.getColor() != this.getColor()) {
-				this.stateSpace.add(indexLocation);
+				this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
 			}
 			
 			return false;
 		}
 		
 		else {
-			this.stateSpace.add(indexLocation);
+			this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
 		}
 		
 		return true;

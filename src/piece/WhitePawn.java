@@ -3,7 +3,10 @@ package piece;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
 import board.ChessBoard;
+import utils.MoveCode;
 
 public class WhitePawn extends Pawn {
 
@@ -64,7 +67,14 @@ public class WhitePawn extends Pawn {
 			if (indexLocation != null) {
 				ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 				if (piece == null) {
-					this.stateSpace.add(indexLocation);
+					if (rank < 6) {
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
+					} else {
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_KNIGHT));
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_BISHOP));
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_ROOK));
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_QUEEN));
+					}
 					addState = true;
 				}
 			}
@@ -75,7 +85,14 @@ public class WhitePawn extends Pawn {
 				if (indexLocation != null) {
 					ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 					if (piece != null && piece.getColor() != this.getColor()) {
-						this.stateSpace.add(indexLocation);
+						if (rank < 6) {
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
+						} else {
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_KNIGHT));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_BISHOP));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_ROOK));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_QUEEN));
+						}
 					}
 				}
 			}
@@ -85,7 +102,14 @@ public class WhitePawn extends Pawn {
 				if (indexLocation != null) {
 					ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 					if (piece != null && piece.getColor() != this.getColor()) {
-						this.stateSpace.add(indexLocation);
+						if (rank < 6) {
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
+						} else {
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_KNIGHT));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_BISHOP));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_ROOK));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_QUEEN));
+						}
 					}
 				}
 			}
@@ -100,7 +124,7 @@ public class WhitePawn extends Pawn {
 			indexLocation = ChessBoard.getIndexLocation(rank + 2, file);
 			ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 			if (addState && piece == null) {
-				this.stateSpace.add(indexLocation);
+				this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
 			}
 		}
 		

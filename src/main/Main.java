@@ -6,7 +6,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		ChessGame game = new ChessGame();
-		game.playSomeRounds(100);
+		game.playSomeRounds(400);
 	}
 	
 }

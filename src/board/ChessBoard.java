@@ -28,12 +28,21 @@ public class ChessBoard {
 	}
 	
 	public ChessPiece pieceAt(int indexLocation) {
+		if (!locationToMap.containsKey(indexLocation)) {
+			return null;
+		}
+		
 		return locationToMap.get(indexLocation);
 	}
 	
 	public void addPieceToRankAndFile(int rank, int file, ChessPiece piece) {
 		int indexLocation = ChessBoard.getIndexLocation(rank, file);
 		this.locationToMap.put(indexLocation, piece);
+	}
+	
+	public void removePieceFromRankAndFile(int rank, int file) {
+		int indexLocation = ChessBoard.getIndexLocation(rank, file);
+		this.locationToMap.remove(indexLocation);
 	}
 	
 	public void movePiece(int oldIndexLocation, int newIndexLocation) {

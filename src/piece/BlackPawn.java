@@ -3,7 +3,11 @@ package piece;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import board.ChessBoard;
+import utils.MoveCode;
 
 public class BlackPawn extends Pawn {
 	
@@ -65,7 +69,14 @@ public class BlackPawn extends Pawn {
 			if (indexLocation != null) {
 				ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 				if (piece == null) {
-					this.stateSpace.add(indexLocation);
+					if (rank > 1) {
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
+					} else {
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_KNIGHT));
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_BISHOP));
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_ROOK));
+						this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_QUEEN));
+					}
 					addState = true;
 				}
 			}
@@ -76,7 +87,14 @@ public class BlackPawn extends Pawn {
 				if (indexLocation != null) {
 					ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 					if (piece != null && piece.getColor() != this.getColor()) {
-						this.stateSpace.add(indexLocation);
+						if (rank > 1) {
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
+						} else {
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_KNIGHT));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_BISHOP));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_ROOK));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_QUEEN));
+						}
 					}
 				}
 			}
@@ -86,7 +104,14 @@ public class BlackPawn extends Pawn {
 				if (indexLocation != null) {
 					ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 					if (piece != null && piece.getColor() != this.getColor()) {
-						this.stateSpace.add(indexLocation);
+						if (rank > 1) {
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
+						} else {
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_KNIGHT));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_BISHOP));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_ROOK));
+							this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.PROMOTE_QUEEN));
+						}
 					}
 				}
 			}
@@ -101,7 +126,7 @@ public class BlackPawn extends Pawn {
 			indexLocation = ChessBoard.getIndexLocation(rank - 2, file);
 			ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 			if (addState && piece == null) {
-				this.stateSpace.add(indexLocation);
+				this.stateSpace.add(new ImmutablePair(indexLocation, MoveCode.NORMAL));
 			}
 		}
 		// TODO: Implement en passant check

@@ -1,10 +1,14 @@
 package piece;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import board.ChessBoard;
+import utils.MoveCode;
 
 public abstract class Bishop extends Piece {
 
@@ -137,7 +141,17 @@ public abstract class Bishop extends Piece {
 	}
 
 	public Set<Integer> getAttackingStates() {
-		return this.stateSpace;
+		Set<Integer> attackingSquares = new HashSet<Integer>();
+		for (Pair<Integer, MoveCode> move : this.stateSpace) {
+			attackingSquares.add(move.getLeft());
+		}
+		
+		return attackingSquares;
+	}
+	
+	@Override
+	public void undoMove(int prevRank, int prevFile, MoveCode moveType) {
+		super.undoMove(prevRank, prevFile, moveType);
 	}
 	
 	/*

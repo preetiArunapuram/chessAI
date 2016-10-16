@@ -2,7 +2,10 @@ package piece;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
 import board.ChessBoard;
+import utils.MoveCode;
 
 public class WhiteKing extends King {
 
@@ -13,16 +16,16 @@ public class WhiteKing extends King {
 	
 	public void setFutureStates() {
 		super.setFutureStates();
-		/*int castleSquare;
+		int castleSquare;
 		if(this.canKingSideCastle()) {
 			castleSquare = ChessBoard.getIndexLocation(0, 6);
-			this.stateSpace.add(castleSquare);
+			this.stateSpace.add(new ImmutablePair(castleSquare, MoveCode.KINGSIDE_CASTLE));
 		}
 		
 		if(this.canQueenSideCastle()) {
 			castleSquare = ChessBoard.getIndexLocation(0, 1);
-			this.stateSpace.add(castleSquare);
-		}*/
+			this.stateSpace.add(new ImmutablePair(castleSquare, MoveCode.QUEENSIDE_CASTLE));
+		}
 	}
 	
 	@Override

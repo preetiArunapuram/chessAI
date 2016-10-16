@@ -27,6 +27,8 @@ import piece.WhitePawn;
 import piece.WhiteQueen;
 import piece.WhiteRook;
 import player.Player;
+import text.MoveTextConverter;
+import utils.MoveCode;
 
 public class ChessGame {
 
@@ -143,11 +145,13 @@ public class ChessGame {
 		for(ChessPiece piece : w_player.getActivePieces()) {
 			piece.setBoard(this.board);
 			piece.setGame(this);
+			piece.setPlayer(w_player);
 		}
 		
 		for(ChessPiece piece : b_player.getActivePieces()) {
 			piece.setBoard(this.board);
 			piece.setGame(this);
+			piece.setPlayer(b_player);
 		}
 	}
 	
@@ -159,53 +163,47 @@ public class ChessGame {
 		return this.b_player;
 	}
 	
-	private ArrayList<Pair<ChessPiece, Integer>> getAllowedMoves(Player activePlayer) {
+	private ArrayList<Pair<ChessPiece, Pair<Integer, MoveCode>>> getAllowedMoves(Player activePlayer) {
 		Player opposingPlayer = (activePlayer == this.w_player) ? this.b_player : this.w_player;
-		King kingPiece = activePlayer.getKing();
-		
-		ArrayList<Pair<ChessPiece, Integer>> allowedMoves = new ArrayList<Pair<ChessPiece, Integer>>();
+		ArrayList<Pair<ChessPiece, Pair<Integer, MoveCode>>> allowedMoves = new ArrayList<Pair<ChessPiece, Pair<Integer, MoveCode>>>();
 
-		Set<ChessPiece> allActivePieces = activePlayer.getActivePieces();
+		Set<ChessPiece> allActivePieces = new HashSet<ChessPiece>();
+		for (ChessPiece piece : activePlayer.getActivePieces()) {
+			allActivePieces.add(piece);
+		}
+		
 		for(ChessPiece piece : allActivePieces) {
-			//System.out.println(piece);
 			piece.setFutureStates();
-			Set<Integer> futureLocations = piece.getFutureStates();
+			Set<Pair<Integer, MoveCode>> futureLocations = piece.getFutureStates();
 			if(futureLocations.isEmpty()) continue;
 			
 			int originalRank = piece.getRank();
 			int originalFile = piece.getFile();
 
-			for(Integer loc : futureLocations) {
-				//System.out.println(loc);
+			for(Pair<Integer, MoveCode> move : futureLocations) {
+				int loc = move.getLeft();
+				MoveCode moveType = move.getRight();
+				
 				Pair<Integer, Integer> rankAndFile = ChessBoard.getRankAndFileLocation(loc);
 				int rank = rankAndFile.getLeft();
 				int file = rankAndFile.getRight();
 				
-				ChessPiece displacedPiece = piece.unofficialMove(rank, file);
+				ChessPiece displacedPiece = piece.unofficialMove(rank, file, moveType);
 				if(displacedPiece != null) {
 					opposingPlayer.removePiece(displacedPiece);
 				}
-
 				
-				boolean kingIsAttacked = false;
-				int kingRank = kingPiece.getRank();
-				int kingFile = kingPiece.getFile();
-				
-				for(ChessPiece opposingPiece : opposingPlayer.getActivePieces()) {
-					if(opposingPiece.isValidMove(kingRank, kingFile)) {
-						System.out.println("King on " + kingRank + ", " + kingFile + " is attacked by " + opposingPiece.toString() + " on " + opposingPiece.getRank() + ", " + opposingPiece.getFile());
-						kingIsAttacked = true;
-						break;
-					}
-				}
-				
+				boolean kingIsAttacked = this.isKingInCheck(activePlayer);
 				if(!kingIsAttacked) {
 					allowedMoves.add(
-						new ImmutablePair<ChessPiece, Integer>(piece, ChessBoard.getIndexLocation(rank, file))
+						new ImmutablePair<ChessPiece, Pair<Integer, MoveCode>>(
+								piece, 
+								move
+						)
 					);
 				}
 				
-				piece.officialMove(originalRank, originalFile);
+				piece.undoMove(originalRank, originalFile, moveType);
 				if(displacedPiece != null) {
 					this.board.addPieceToRankAndFile(rank, file, displacedPiece);
 					opposingPlayer.addPiece(displacedPiece);
@@ -216,26 +214,68 @@ public class ChessGame {
 		return allowedMoves;
 	}
 	
+	public boolean isKingInCheck(Player activePlayer) {
+		King kingPiece = activePlayer.getKing();
+		//System.out.println(kingPiece);
+		Player opposingPlayer = (activePlayer == this.w_player) ? this.b_player : this.w_player;
+		for(ChessPiece opposingPiece : opposingPlayer.getActivePieces()) {
+			//System.out.println(opposingPiece);
+			if(opposingPiece.isValidMove(kingPiece.getRank(), kingPiece.getFile())) {
+				//System.out.println("King on " + kingRank + ", " + kingFile + " is attacked by " + opposingPiece.toString() + " on " + opposingPiece.getRank() + ", " + opposingPiece.getFile());
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public boolean playOneRound(Player activePlayer) {
-		ArrayList<Pair<ChessPiece, Integer>> movesArray = this.getAllowedMoves(activePlayer);
+		ArrayList<Pair<ChessPiece, Pair<Integer, MoveCode>>> movesArray = this.getAllowedMoves(activePlayer);
 		int moveCount = movesArray.size();
 		
+		Player opposingPlayer = activePlayer == this.w_player
+			? this.b_player
+			: this.w_player;
+		
 		if(moveCount == 0) {
-			System.out.println("Game over!");
+			String finalStatus;
+			if (isKingInCheck(activePlayer)) {
+				finalStatus = activePlayer == this.w_player
+					? "0-1"
+					: "1-0";
+			} else {
+				finalStatus = "0-0";
+			}
+			System.out.println(finalStatus);
+			return false;
+		} else if (activePlayer.getActivePieces().size() == 1 && activePlayer.getKing() != null && opposingPlayer.getActivePieces().size() == 1 && opposingPlayer.getKing() != null) {
+			System.out.println("0-0");
 			return false;
 		}
 		
 		Random rng = new Random();
 
 		int ind = rng.nextInt(movesArray.size());
-		Pair<ChessPiece, Integer> whiteNextMove = movesArray.get(ind);
-		ChessPiece piece = whiteNextMove.getLeft();
-		Pair<Integer, Integer> rankAndFile = ChessBoard.getRankAndFileLocation(whiteNextMove.getRight());
+		Pair<ChessPiece, Pair<Integer, MoveCode>> nextMove = movesArray.get(ind);
+		ChessPiece piece = nextMove.getLeft();
+		Pair<Integer, MoveCode> move = nextMove.getRight();
 		
-		ChessPiece capturedPiece = piece.officialMove(rankAndFile.getLeft(), rankAndFile.getRight());
+		int indexLocation = move.getLeft();
+		MoveCode moveType = move.getRight();
+		
+		Pair<Integer, Integer> rankAndFile = ChessBoard.getRankAndFileLocation(indexLocation);
+		
+		int oldRank = piece.getRank();
+		int oldFile = piece.getFile();
+		int newRank = rankAndFile.getLeft();
+		int newFile = rankAndFile.getRight();
+		
+		ChessPiece capturedPiece = piece.officialMove(newRank, newFile , moveType);
+		String moveText = MoveTextConverter.moveToText(piece, oldRank, oldFile, newRank, newFile, moveType, (capturedPiece != null));
+		System.out.print(moveText);
+		
 		if(capturedPiece != null) {
-			Player opposingPlayer = (activePlayer == this.w_player) ? this.b_player : this.w_player;
-			opposingPlayer.removePiece(capturedPiece);
+			capturedPiece.getPlayer().removePiece(capturedPiece);
 		}
 		
 		return true;
@@ -243,23 +283,25 @@ public class ChessGame {
 	
 	public void playSomeRounds(int n) {
 		for(int i = 0; i < n; i++) {
-			System.out.println("White playing: ");
+			//System.out.println("White playing: ");
 			boolean whiteStillPlayed = this.playOneRound(this.w_player);
 			if(!whiteStillPlayed) {
 				return;
 			}
 			
-			this.printCurrentBoard();
-			System.out.println("--------------------------------------------------------------------");
+			System.out.print('\t');
+			//this.printCurrentBoard();
+			//System.out.println("--------------------------------------------------------------------");
 			
-			System.out.println("Black playing: ");
+			//System.out.println("Black playing: ");
 			boolean blackStillPlayed = this.playOneRound(this.b_player);
 			if(!blackStillPlayed) {
 				return;
 			}
 			
-			this.printCurrentBoard();
-			System.out.println("--------------------------------------------------------------------");
+			System.out.println();
+			//this.printCurrentBoard();
+			//System.out.println("--------------------------------------------------------------------");
 		}
 	}
 	
