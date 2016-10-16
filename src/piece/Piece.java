@@ -23,6 +23,7 @@ public abstract class Piece implements ChessPiece {
 	private ChessGame game;
 	private Player player;
 	
+
 	protected Set<Pair<Integer, MoveCode>> stateSpace = new HashSet<Pair<Integer, MoveCode>>();
 	protected Set<Integer> attackingSquares = new HashSet<Integer>();
 	private boolean hasMoved = false;
@@ -187,7 +188,6 @@ public abstract class Piece implements ChessPiece {
 		Integer indexLocation = ChessBoard.getIndexLocation(rank, file);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
 		if (piece != null) {
-			//System.out.println("Obstructing piece: " + piece);
 			return false;
 		}
 		

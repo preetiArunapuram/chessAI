@@ -2,6 +2,11 @@ package piece;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
+import mechanics.MoveObject;
+import mechanics.MoveType;
+import utils.MoveCode;
 import board.ChessBoard;
 
 public class BlackKing extends King {
@@ -13,18 +18,18 @@ public class BlackKing extends King {
 	
 	public void setFutureStates() {
 		super.setFutureStates();
-		/*int castleSquare;
+		int castleSquare;
 		if(this.canKingSideCastle()) {
-			System.out.println("Kingside castling");
 			castleSquare = ChessBoard.getIndexLocation(7, 6);
-			this.stateSpace.add(castleSquare);
+			
+			this.stateSpace.add(new ImmutablePair(castleSquare, MoveCode.KINGSIDE_CASTLE));
 		}
 		
 		if(this.canQueenSideCastle()) {
-			System.out.println("Queenside castling");
 			castleSquare = ChessBoard.getIndexLocation(7, 1);
-			this.stateSpace.add(castleSquare);
-		}*/
+			this.stateSpace.add(new ImmutablePair(castleSquare, MoveCode.QUEENSIDE_CASTLE));
+			
+		}
 	}
 	
 	@Override

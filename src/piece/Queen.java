@@ -25,9 +25,6 @@ public abstract class Queen extends Piece {
 		int rank = this.getRank();
 		int file = this.getFile();
 		
-		//System.out.println("Queen rank and file: " + rank + ", " + file);
-		//System.out.println("King rank and file: " + newRank + ", " + newFile);
-		
 		// Ensure that a piece of the same color is not on the new rank and file
 		int indexLocation = ChessBoard.getIndexLocation(newRank, newFile);
 		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
@@ -52,6 +49,7 @@ public abstract class Queen extends Piece {
 				if(nextFile == newFile) {
 					return true;
 				}
+				
 				continueFindingStates = this.canMoveHelper(rank, nextFile);
 			} while(continueFindingStates);
 		} else if(newFile == file) {
@@ -60,8 +58,10 @@ public abstract class Queen extends Piece {
 				if(nextRank == newRank) {
 					return true;
 				}
+
 				continueFindingStates = this.canMoveHelper(nextRank, file);
 			} while(continueFindingStates);
+
 		} else {
 			// Diagonal moves are also valid
 			float ratio = Math.abs(newRank - rank) / Math.abs(newFile - file);	
@@ -84,6 +84,7 @@ public abstract class Queen extends Piece {
 	// This function will get the possible future moves for the Queen
 	public void setFutureStates() {
 		this.stateSpace.clear();
+		
 		int rank = this.getRank();
 		int file = this.getFile();
 		
@@ -204,13 +205,4 @@ public abstract class Queen extends Piece {
 	public void undoMove(int prevRank, int prevFile, MoveCode moveType) {
 		super.undoMove(prevRank, prevFile, moveType);
 	}
-	
-	/*
-	@Override
-	public void setAttackingSquares() {
-		// TODO Auto-generated method stub
-		this.attackingSquares.clear();
-		this.attackingSquares.addAll(this.stateSpace);
-	}*/
-	
 }

@@ -183,7 +183,6 @@ public class ChessGame {
 			for(Pair<Integer, MoveCode> move : futureLocations) {
 				int loc = move.getLeft();
 				MoveCode moveType = move.getRight();
-				
 				Pair<Integer, Integer> rankAndFile = ChessBoard.getRankAndFileLocation(loc);
 				int rank = rankAndFile.getLeft();
 				int file = rankAndFile.getRight();

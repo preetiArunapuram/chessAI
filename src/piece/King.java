@@ -52,6 +52,7 @@ public abstract class King extends Piece {
 	public void setFutureStates() {
 		// TODO Auto-generated method stub
 		this.stateSpace.clear();
+		
 		int rank = this.getRank();
 		int file = this.getFile();
 		
@@ -64,25 +65,6 @@ public abstract class King extends Piece {
 		addState = futureStatesHelper(rank + 1, file - 1);
 		addState = futureStatesHelper(rank, file - 1);
 		addState = futureStatesHelper(rank - 1, file - 1);
-		
-		//System.out.println("We have the state space now!");
-		
-		//System.out.println(this.stateSpace);
-		
-		
-		/*
-		// King-side castling
-		Integer indexLocation = ChessBoard.getIndexLocation(0, 0);
-		ChessPiece piece = this.getBoard().pieceAt(indexLocation);
-		
-		if (!this.hasMoved() && !piece.hasMoved()) {
-			this.canKingSideCastle = true;
-		}
-		
-		// Queen-side castling
-		indexLocation = ChessBoard.getIndexLocation(0, 0);
-		piece = this.getBoard().pieceAt(indexLocation);*/
-		
 	}
 	
 	public Set<Integer> getAttackingStates() {
@@ -93,14 +75,6 @@ public abstract class King extends Piece {
 		
 		return attackingSquares;
 	}
-	
-	/*
-	@Override
-	public void setAttackingSquares() {
-		// TODO Auto-generated method stub
-		this.attackingSquares.clear();
-		this.attackingSquares.addAll(this.stateSpace);
-	}*/
 	
 	public abstract boolean canKingSideCastle();
 	public abstract boolean canQueenSideCastle();

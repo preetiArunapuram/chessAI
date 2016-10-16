@@ -3,6 +3,8 @@ package piece;
 import java.util.HashSet;
 import java.util.Set;
 
+import mechanics.MoveObject;
+import mechanics.MoveType;
 import board.ChessBoard;
 import utils.MoveCode;
 

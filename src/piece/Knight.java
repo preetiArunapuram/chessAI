@@ -44,6 +44,7 @@ public abstract class Knight extends Piece {
 	// This function will get the possible future moves for the Rook
 	public void setFutureStates() {
 		this.stateSpace.clear();
+		
 		int rank = this.getRank();
 		int file = this.getFile();
 				
@@ -70,18 +71,4 @@ public abstract class Knight extends Piece {
 	public void undoMove(int prevRank, int prevFile, MoveCode moveType) {
 		super.undoMove(prevRank, prevFile, moveType);
 	}
-	
-		/*
-		@Override
-		public void setAttackingSquares() {
-			// TODO Auto-generated method stub
-			this.attackingSquares.clear();
-			this.attackingSquares.addAll(this.stateSpace);
-		}
-
-		@Override
-		public boolean capture(int newRank, int newFile) {
-			// TODO Auto-generated method stub
-			return false;
-		}*/
 }
